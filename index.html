@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://code.jquery.com/jquery.min.js"></script>
+<link rel="stylesheet" href="style.css";>
+<link href="https://fonts.googleapis.com/css?family=Bree+Serif" rel="stylesheet">
+	<title>YourLocalWeather</title>
+</head>
+<body>
+<h1>Your Local Weather</h1>
+<div class="check"><p>The site must be allowed to check your geolocation</p></div>
+<div class="container">
+<div class="name"></div>
+<div class="weather"></div>
+
+<div class="icon sun-shower hide">
+  <div class="cloud"></div>
+  <div class="sun">
+    <div class="rays"></div>
+  </div>
+  <div class="rain"></div>
+</div>
+
+<div class="icon thunder-storm hide thunderstom">
+  <div class="cloud"></div>
+  <div class="lightning">
+    <div class="bolt"></div>
+    <div class="bolt"></div>
+  </div>
+</div>
+
+<div class="icon cloudy hide clouds">
+  <div class="cloud"></div>
+  <div class="cloud"></div>
+</div>
+
+<div class="icon flurries hide snow">
+  <div class="cloud"></div>
+  <div class="snow">
+    <div class="flake"></div>
+    <div class="flake"></div>
+  </div>
+</div>
+
+<div class="icon sunny hide clear">
+  <div class="sun">
+    <div class="rays"></div>
+  </div>
+</div>
+
+<div class="icon rainy hide rain">
+  <div class="cloud"></div>
+  <div class="rain"></div>
+</div>
+</div>
+
+
+<script>
+$( document ).ready(function(){
+  if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(function(position) {
+ $.getJSON("https://fcc-weather-api.glitch.me/api/current?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude, function(data){
+var str = JSON.stringify(data);
+var content = JSON.parse(str);
+$(".name").html("Your locality:<br>" + content.name);
+$(".weather").html("Weather type: " + content.weather[0].main + "<br> Temperature: " + content.main.temp + " C&deg;");
+var weathertype = content.weather[0].main.toLowerCase();
+
+switch(weathertype){
+
+	case'clouds':
+	iconCreate(weathertype);
+	break;
+	case'rain':
+	iconCreate(weathertype);
+	break;
+	case'snow':
+	iconCreate(weathertype);
+	break;
+	case'clear':
+	iconCreate(weathertype);
+	break;
+	case'thunderstom':
+	iconCreate(weathertype);
+	break;
+	default:
+	$(".clouds").removeClass('hide');}
+$(".check").css('display', 'none');
+
+
+  });
+  });
+  
+}
+else $(".testprint").html("Unable to catch your location");
+});
+function iconCreate(weathertype){
+	$("div."+weathertype).removeClass('hide')
+}
+</script>
+</body>
+</html>
