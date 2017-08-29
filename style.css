@@ -5,6 +5,7 @@ body{
 	font-family: 'Bree Serif', serif;
   color: white;
   text-shadow: 1px 1px 2px black, 0 0 1em red;
+  transition: background-image 3s;
 }
 h1{
 	text-align: center;

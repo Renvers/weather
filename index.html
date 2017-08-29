@@ -9,7 +9,7 @@
 	<title>YourLocalWeather</title>
 </head>
 <body>
-<h1>Your Local Weather</h1>
+<h1>Let's see what the weather brings us today...</h1>
 <div class="check"><p>The site must be allowed to check your geolocation</p></div>
 <div class="container">
 <div class="name"></div>
@@ -72,21 +72,33 @@ switch(weathertype){
 
 	case'clouds':
 	iconCreate(weathertype);
+	$("h1").html("Not sunny, not rainy, just clouds, lots of clouds");
+	$("body").css('background-image', 'url(bg-clouds.jpg)')
 	break;
 	case'rain':
 	iconCreate(weathertype);
+	$("h1").html("Uh, it's chilly and rainy, better to stay home");
+	$("body").css('background-image', 'url(bg-rainy.jpg)')
 	break;
 	case'snow':
 	iconCreate(weathertype);
+	$("h1").html("Meh, another snowy day");
+	$("body").css('background-image', 'url(bg-flurries.jpg)')
 	break;
 	case'clear':
 	iconCreate(weathertype);
+	$("h1").html("The sun is shining brightly. Definitely not the best day for vampires.");
+	$("body").css('background-image', 'url(bg-sunny.jpg)')
 	break;
 	case'thunderstom':
 	iconCreate(weathertype);
+	$("h1").html("Holy. Lightning storm is sticking around");
+	$("body").css('background-image', 'url(bg-thunderstorm.jpg)')
 	break;
 	default:
-	$(".clouds").removeClass('hide');}
+	$(".clouds").removeClass('hide');
+	$("h1").html("Not sunny, not rainy, just clouds, lots of clouds");
+	$("body").css('background-image', 'url(bg-clouds.jpg)')}
 $(".check").css('display', 'none');
 $(".name").css('display', 'block');
 $(".weather").css('display', 'block');
