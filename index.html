@@ -6,11 +6,15 @@
 	<script src="https://code.jquery.com/jquery.min.js"></script>
 <link rel="stylesheet" href="style.css";>
 <link href="https://fonts.googleapis.com/css?family=Bree+Serif" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Noto+Serif" rel="stylesheet">
 	<title>YourLocalWeather</title>
 </head>
 <body>
-<h1>Let's see what the weather brings us today...</h1>
-<div class="check"><p>The site must be allowed to check your geolocation</p></div>
+<div class="lang">Language: EN</div>
+<div class="titlebefore"><h1>Let's see what the weather brings us today...</h1><h3>Посмотрим, какая погода за окном...</h3></div>
+<hr>
+<div class="check"><p>The site must be allowed to check your geolocation<br>
+<span class="chru">Сайту должна быть доступна проверка вашего местоположения</span></p></div>
 <div class="container">
 <div class="name"></div>
 <div class="weather"></div>
@@ -58,6 +62,8 @@
 
 
 <script>
+lang = $(".lang").text();
+
 $( document ).ready(function(){
   if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(function(position) {
@@ -66,12 +72,14 @@ var str = JSON.stringify(data);
 var content = JSON.parse(str);
 $(".name").html("Your locality:<br>" + content.name);
 $(".weather").html("Weather type: " + content.weather[0].main + "<br> Temperature: " + content.main.temp + " C&deg;");
-var weathertype = content.weather[0].main.toLowerCase();
-
+weathertype = content.weather[0].main.toLowerCase();
+runame = content.name;
+rutemp = content.main.temp;
 switch(weathertype){
 
 	case'clouds':
 	iconCreate(weathertype);
+	
 	$("h1").html("Not sunny, not rainy, just clouds, lots of clouds");
 	$("body").css('background-image', 'url(bg-clouds.jpg)')
 	break;
@@ -87,6 +95,7 @@ switch(weathertype){
 	break;
 	case'clear':
 	iconCreate(weathertype);
+	
 	$("h1").html("The sun is shining brightly. Definitely not the best day for vampires.");
 	$("body").css('background-image', 'url(bg-sunny.jpg)')
 	break;
@@ -100,17 +109,59 @@ switch(weathertype){
 	$("h1").html("Not sunny, not rainy, just clouds, lots of clouds");
 	$("body").css('background-image', 'url(bg-clouds.jpg)')}
 $(".check").css('display', 'none');
+$("h3").css('display', 'none');
 $(".name").css('display', 'block');
 $(".weather").css('display', 'block');
+$(".lang").css('display', 'block');
   });
   });
   
 }
 else $(".testprint").html("Unable to catch your location");
 });
+
 function iconCreate(weathertype){
 	$("div."+weathertype).removeClass('hide')
+};
+
+$( document ).ready(function(){
+
+	$(".lang").on("click", function(){
+
+		if(lang == "Language: EN"){
+		$("body").css("font-family", "Noto Serif");
+		$(".lang").html("Язык: RU");
+		
+			if (weathertype == "clear"){
+				$("h1").html("Солнечно, отличная погода для прогулок");
+				weathertyperu = "Ясно";}
+			else if (weathertype == "clouds"){
+				$("h1").html("Обычный облачный день");
+				weathertyperu = "Облачно";}
+			else if (weathertype == "rain"){
+				$("h1").html("Ух, холодно и дождливо, лучше остаться дома");
+				weathertyperu = "Дождь";}
+			else if (weathertype == "snow"){
+				$("h1").html("Еще один снежный день");
+				weathertyperu = "Снег";}
+			else if (weathertype == "thunderstom"){
+				$("h1").html("Гроза и буря за окном, не лучший день для прогулок");
+				weathertyperu = "Гроза";}
+			else $("h1").html("Обычный облачный день");
+			$.getJSON("https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20170902T082920Z.778339b52e86ec6b.b5866a5f57ddb165daa98f5b1b3685037a0e2912&lang=en-ru&text="+runame, function(data) {
+				var strinfo = JSON.stringify(data);
+				var info = JSON.parse(strinfo);
+				$(".name").html("Ваше местоположение:<br>" + info.text[0]);
+				$(".weather").html("Погода: " + weathertyperu
+					+ "<br> Температура: " + rutemp + " C&deg;");
+			});
+lang = $(".lang").text();		
 }
+else if(lang === "Язык: RU"){
+location.reload();	
+	}
+});
+});
 </script>
 </body>
 </html>

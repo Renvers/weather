@@ -12,11 +12,28 @@ h1{
 	color: white;
 	margin-top: 50px;
 	font-size: 44px;
+  margin-bottom: 10px;
+}
+h3{
+  text-align: center;
+  font-family: 'Noto Serif', serif;
+  margin: 0px;
+}
+.chru{
+  font-family: 'Noto Serif', serif;
+  font-size: 16px;
+}
+.lang{
+  margin: auto;
+  text-align: right;
+  cursor: pointer;
+  display: none;
 }
 .check{
 text-align: center;
 color: white;
 font-size: 22px;
+
 }
 .container{
   margin-top: 30px;
@@ -317,5 +334,8 @@ font-size: 22px;
   .container{
       margin: auto 10%;
 
+  }
+  h1{
+    font-size: 32px;
   }
 }
