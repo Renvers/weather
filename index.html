@@ -39,12 +39,13 @@
   <div class="cloud"></div>
   <div class="cloud"></div>
 </div>
-
-<div class="icon flurries hide snow">
+<div id="ic1" class="icon hide">
+<div class="flurries hide snow">
   <div class="cloud"></div>
   <div class="snow">
     <div class="flake"></div>
     <div class="flake"></div>
+  </div>
   </div>
 </div>
 
@@ -53,10 +54,11 @@
     <div class="rays"></div>
   </div>
 </div>
-
-<div class="icon rainy hide rain">
+<div id="ic2" class="icon hide">
+<div class="rainy hide rain">
   <div class="cloud"></div>
   <div class="rain"></div>
+  </div>
 </div>
 </div>
 
@@ -66,10 +68,12 @@ lang = $(".lang").text();
 
 $( document ).ready(function(){
   if (navigator.geolocation) {
+
   navigator.geolocation.getCurrentPosition(function(position) {
  $.getJSON("https://fcc-weather-api.glitch.me/api/current?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude, function(data){
 var str = JSON.stringify(data);
 var content = JSON.parse(str);
+ $(".container").css("display", "flex");
 $(".name").html("Your locality:<br>" + content.name);
 $(".weather").html("Weather type: " + content.weather[0].main + "<br> Temperature: " + content.main.temp + " C&deg;");
 weathertype = content.weather[0].main.toLowerCase();
@@ -121,7 +125,9 @@ else $(".testprint").html("Unable to catch your location");
 });
 
 function iconCreate(weathertype){
-	$("div."+weathertype).removeClass('hide')
+	$("div."+weathertype).removeClass('hide');
+	if (weathertype == "rain") $("#ic2").removeClass('hide');
+	if (weathertype == "snow") $("#ic1").removeClass('hide');
 };
 
 $( document ).ready(function(){
